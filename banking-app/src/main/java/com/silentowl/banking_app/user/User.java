@@ -1,8 +1,9 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.common.AbstractEntity;
+import com.silentowl.banking_app.role.Role;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,29 +12,39 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
-public class User implements UserDetails {
+@Table(name = "users")
+public class User extends AbstractEntity implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false)
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    private boolean active;
+    private String fullName() {
+        return firstName + " " + lastName;
+    }
 
+    @ManyToOne
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.name());
-        return List.of();
+        final SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.getName());
+        return List.of(userRole);
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
@@ -53,6 +64,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return active;
     }
 }

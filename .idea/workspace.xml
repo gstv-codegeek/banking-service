@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="" />
+    <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/common/AbstractEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/ApplicationAuditorAware.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/ApplicationConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,11 +25,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
         <option value="Enum" />
+        <option value="Interface" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -32,8 +47,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.BankingAppApplication.executor": "Run",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -70,7 +91,7 @@
       <updated>1742715883570</updated>
       <workItem from="1742715885666" duration="4172000" />
       <workItem from="1742752504337" duration="987000" />
-      <workItem from="1742753554396" duration="9538000" />
+      <workItem from="1742753554396" duration="14060000" />
     </task>
     <servers />
   </component>
