@@ -11,4 +11,6 @@ public class ApplicationConfiguration {
     public AuditorAware<Long> auditorAware() {
         return new ApplicationAuditorAware();
     }
+
+
 }

@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/common/AbstractEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/ApplicationAuditorAware.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/ApplicationConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
-    </list>
+    <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,9 +13,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -91,7 +79,7 @@
       <updated>1742715883570</updated>
       <workItem from="1742715885666" duration="4172000" />
       <workItem from="1742752504337" duration="987000" />
-      <workItem from="1742753554396" duration="14060000" />
+      <workItem from="1742753554396" duration="17359000" />
     </task>
     <servers />
   </component>

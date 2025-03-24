@@ -3,7 +3,8 @@ package com.silentowl.banking_app.user;
 import com.silentowl.banking_app.common.AbstractEntity;
 import com.silentowl.banking_app.role.Role;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Table(name = "users")
 public class User extends AbstractEntity implements UserDetails {
 
