@@ -20,8 +20,8 @@ public class UserMapper {
                 .build();
     }
 
-    public UserRequest mapToUserRequest(User user) {
-        return UserRequest.builder()
+    public UserResponse mapToUserResponse(User user) {
+        return UserResponse.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())

@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     void createUser(UserRequest userRequest);
-    void updateUser(Long userId, UserUpdateRequest user);
+    void updateUser(Long userId, UserUpdateRequest userUpdateRequest);
     List<UserResponse> findAllUsers(int page, int size);
     UserResponse findById(Long userId);
     void changePassword(Long userId, ChangePasswordRequest changePasswordRequest);

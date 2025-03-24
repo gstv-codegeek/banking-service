@@ -1,6 +1,7 @@
 package com.silentowl.banking_app.handler;
 
 import com.silentowl.banking_app.exceptions.TransactionException;
+import com.silentowl.banking_app.exceptions.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TransactionException.class)
     public ResponseEntity<?> handleException(TransactionException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleException(UserNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
