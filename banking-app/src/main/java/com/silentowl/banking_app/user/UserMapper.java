@@ -1,6 +1,5 @@
 package com.silentowl.banking_app.user;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
