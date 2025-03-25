@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.account.Account;
 import com.silentowl.banking_app.common.AbstractEntity;
 import com.silentowl.banking_app.role.Role;
 import jakarta.persistence.*;
@@ -30,12 +31,26 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private String fullName() {
+    // Address info
+    @Column(nullable = false)
+    private String street;
+    @Column(nullable = false)
+    private String city;
+    @Column(nullable = false)
+    private String state;
+    @Column(nullable = false)
+    private String country;
+
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Account account;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

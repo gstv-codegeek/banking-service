@@ -5,11 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/46f34783-96a0-4fad-baa4-2bbe961aeb30.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/46f34783-96a0-4fad-baa4-2bbe961aeb30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountCreationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/ChangePasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/ChangePasswordRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,9 +32,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -94,7 +106,7 @@
       <workItem from="1742752504337" duration="987000" />
       <workItem from="1742753554396" duration="17359000" />
       <workItem from="1742806167723" duration="21753000" />
-      <workItem from="1742887812653" duration="11657000" />
+      <workItem from="1742887812653" duration="33519000" />
     </task>
     <servers />
   </component>

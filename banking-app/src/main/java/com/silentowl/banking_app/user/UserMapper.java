@@ -17,6 +17,10 @@ public class UserMapper {
                 .lastName(userRequest.getLastName())
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
+                .city(userRequest.getCity())
+                .street(userRequest.getStreet())
+                .state(userRequest.getState())
+                .country(userRequest.getCountry())
                 .role(Role.ROLE_CUSTOMER)
                 .build();
     }
@@ -27,6 +31,10 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .street(user.getStreet())
+                .city(user.getCity())
+                .state(user.getState())
+                .country(user.getCountry())
                 .build();
     }
 }

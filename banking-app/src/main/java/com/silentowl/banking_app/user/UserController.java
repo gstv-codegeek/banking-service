@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.account.AccountCreationRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ public class UserController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public void createUser(@Valid @RequestBody UserRequest userRequest) {
-        userService.createUser(userRequest);
+    public void createUser(@Valid @RequestBody AccountCreationRequest accountCreationRequest) {
+        userService.createUserWithAccount(accountCreationRequest);
     }
 
     @PutMapping("/{user-id}")

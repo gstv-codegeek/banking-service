@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGlobalException(Exception e) {
         Map<String, Object> error = new HashMap<>();
         error.put("error", e.getMessage());
-        log.error("Unexpected error: {}", e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

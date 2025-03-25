@@ -24,4 +24,14 @@ public class UserRequest {
     @Size(min = 6, max = 16, message = "Password must be between 6 and 16 characters")
     //     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String password;
+
+    // Address details
+    @NotBlank(message = "Street cannot be blank")
+    private String street;
+    @NotBlank(message = "City cannot be blank")
+    private String city;
+    @NotBlank(message = "State cannot be blank")
+    private String state;
+    @NotBlank(message = "Country cannot be blank")
+    private String country;
 }
