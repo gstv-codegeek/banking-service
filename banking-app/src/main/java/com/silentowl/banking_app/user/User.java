@@ -29,18 +29,19 @@ public class User extends AbstractEntity implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String password;
+    private boolean isAccountLocked;
     private boolean active;
+
     private String fullName() {
         return firstName + " " + lastName;
     }
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.getName());
-        return List.of(userRole);
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -55,17 +56,17 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return !isAccountLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override

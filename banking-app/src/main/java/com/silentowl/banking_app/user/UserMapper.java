@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class UserMapper {
                 .lastName(userRequest.getLastName())
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
+                .role(Role.ROLE_CUSTOMER)
                 .build();
     }
 

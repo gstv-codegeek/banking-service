@@ -28,7 +28,7 @@ public class WebSecurityConfiguration {
                         request
                                 .requestMatchers(
                                         "/api/v1/auth/**",
-                                        "/api/v1/test").permitAll()
+                                        "/api/v1/test/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

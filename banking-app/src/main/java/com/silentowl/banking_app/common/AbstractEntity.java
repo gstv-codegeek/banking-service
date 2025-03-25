@@ -36,7 +36,7 @@ public abstract class AbstractEntity {
     private LocalDateTime lastModifiedDate;
 
     @CreatedBy
-    @Column(nullable = false, insertable = false)
+    @Column(nullable = false, updatable = false)
     private Long createdBy;
 
     @LastModifiedBy

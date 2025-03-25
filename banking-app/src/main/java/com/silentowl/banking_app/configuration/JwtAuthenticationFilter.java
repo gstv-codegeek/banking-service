@@ -1,6 +1,5 @@
 package com.silentowl.banking_app.configuration;
 
-import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         try {
+            System.out.println("Setting authentication...");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -58,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities()
                     );
+
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     securityContext.setAuthentication(authenticationToken);
                     SecurityContextHolder.setContext(securityContext);

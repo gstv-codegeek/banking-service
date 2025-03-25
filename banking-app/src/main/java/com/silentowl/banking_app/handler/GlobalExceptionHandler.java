@@ -14,57 +14,77 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleException(MethodArgumentNotValidException exp) {
-        List<String> errors = new ArrayList<>();
-        exp.getBindingResult()
+    public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException e) {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> errors = new HashMap<>();
+        e.getBindingResult()
                 .getAllErrors()
                 .forEach(error -> {
-                    String fieldName = ((FieldError) error).getField();
-                    errors.add(fieldName + " - " + error.getDefaultMessage());
+                    if (error instanceof FieldError fieldError) {
+                        errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+                    }
                 });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        response.put("status", "error");
+        response.put("message", "Validation failed");
+        response.put("errors", errors);
+
+        log.warn("Validation error: {}", errors);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleException(BadCredentialsException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>("Username and/or password is incorrect", HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Map<String, Object>> handleBadCredentialsException(BadCredentialsException e) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("error", "Username and/or password is incorrect");
+        log.warn("Authentication failed: {}", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleException(EntityNotFoundException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Map<String, Object>> handleEntityNotFoundException(EntityNotFoundException e) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("error", e.getMessage());
+        log.warn("Entity not found {}", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleException(UsernameNotFoundException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(TransactionException.class)
-    public ResponseEntity<?> handleException(TransactionException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<Map<String, Object>> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("Username not found: {}", e.getMessage());
+        log.warn(e.getMessage(), e);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleException(UserNotFoundException e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<Map<String, Object>> handleUserNotFoundException(UserNotFoundException e) {
+        Map<String, Object> error = new HashMap<>();
+        log.warn("User not found: {}", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(TransactionException.class)
+    public ResponseEntity<Map<String, Object>> handleTransactionException(TransactionException e) {
+        Map<String, Object> error = new HashMap<>();
+        log.error("Transaction error: {}", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception e) {
-        log.error(e.getMessage(), e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Map<String, Object>> handleGlobalException(Exception e) {
+        Map<String, Object> error = new HashMap<>();
+        log.error("Unexpected error: {}", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
