@@ -29,8 +29,6 @@ public class User extends AbstractEntity implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String password;
-    private boolean isAccountLocked;
-    private boolean active;
 
     private String fullName() {
         return firstName + " " + lastName;
@@ -61,7 +59,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !isAccountLocked;
+        return true;
     }
 
     @Override
@@ -71,6 +69,6 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return true;
     }
 }

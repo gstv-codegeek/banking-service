@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/46f34783-96a0-4fad-baa4-2bbe961aeb30.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/46f34783-96a0-4fad-baa4-2bbe961aeb30.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/common/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/common/AbstractEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/WebSecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleName.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/role/RoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/ChangePasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/ChangePasswordRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -101,7 +94,7 @@
       <workItem from="1742752504337" duration="987000" />
       <workItem from="1742753554396" duration="17359000" />
       <workItem from="1742806167723" duration="21753000" />
-      <workItem from="1742887812653" duration="6636000" />
+      <workItem from="1742887812653" duration="11657000" />
     </task>
     <servers />
   </component>

@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
             user.setEmail("admin@e-banking.com");
             user.setPassword(passwordEncoder.encode("admin"));
             user.setRole(Role.ROLE_ADMIN);
-            user.setActive(true);
             user.setCreatedBy(1L);
             user.setCreatedDate(LocalDateTime.now());
             userRepository.save(user);
@@ -56,10 +55,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
+        System.out.println(userId);
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new UserNotFoundException("User not found with id:" + userId));
         user.setFirstName(userUpdateRequest.getFirstName());
         user.setLastName(userUpdateRequest.getLastName());
+        userRepository.save(user);
     }
 
     @Override

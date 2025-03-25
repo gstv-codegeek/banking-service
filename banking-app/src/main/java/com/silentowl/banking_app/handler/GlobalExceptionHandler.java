@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, Object>> handleBadCredentialsException(BadCredentialsException e) {
         Map<String, Object> error = new HashMap<>();
-        error.put("error", "Username and/or password is incorrect");
+        error.put("error", e.getMessage());
         log.warn("Authentication failed: {}", e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
@@ -68,6 +68,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleUserNotFoundException(UserNotFoundException e) {
         Map<String, Object> error = new HashMap<>();
+        error.put("error", e.getMessage());
         log.warn("User not found: {}", e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -75,6 +76,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TransactionException.class)
     public ResponseEntity<Map<String, Object>> handleTransactionException(TransactionException e) {
         Map<String, Object> error = new HashMap<>();
+        error.put("error", e.getMessage());
         log.error("Transaction error: {}", e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -84,6 +86,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGlobalException(Exception e) {
         Map<String, Object> error = new HashMap<>();
+        error.put("error", e.getMessage());
         log.error("Unexpected error: {}", e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
