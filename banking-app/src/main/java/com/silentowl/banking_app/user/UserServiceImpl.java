@@ -94,8 +94,6 @@ public class UserServiceImpl implements UserService {
         Account account = accountMapper.mapToAccountEntity(iban, user);
         accountRepository.save(account);
 
-//        user.setAccount(account);
-//        userRepository.save(user);
     }
     private String generateIban() {
         String newIban;

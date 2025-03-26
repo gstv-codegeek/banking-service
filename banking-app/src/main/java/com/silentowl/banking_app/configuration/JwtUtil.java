@@ -18,9 +18,9 @@ import java.util.function.Function;
 public class JwtUtil {
 
 
-    @Value("${spring.application.security.jwt.secret-key}")
+    @Value("${spring.security.jwt.secret-key}")
     private String secretKey;
-    @Value("${spring.application.security.jwt.expiration}")
+    @Value("${spring.security.jwt.expiration}")
     private long expiration; // one day in millis
 
     public String extractUsername(String token) {
@@ -42,6 +42,7 @@ public class JwtUtil {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        System.out.println("Expiration" + expiration);
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
