@@ -19,8 +19,8 @@ public class AccountMapper {
                 .build();
     }
 
-    public AccountResponse mapToAccountResponse(Account account) {
-        return AccountResponse.builder()
+    public AccountCreationResponse mapToAccountResponse(Account account) {
+        return AccountCreationResponse.builder()
                 .id(account.getId())
                 .firstName(account.getUser().getFirstName())
                 .lastName(account.getUser().getLastName())

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class AccountResponse {
+public class AccountCreationResponse {
     private Long id;
     private String firstName;
     private String lastName;

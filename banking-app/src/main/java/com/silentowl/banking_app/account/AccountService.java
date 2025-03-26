@@ -5,9 +5,10 @@ import java.util.Optional;
 
 public interface AccountService {
 
+    AccountCreationResponse createAccountWithKycVerification(AccountCreationRequest request);
     void lockAccount(Long accountId);
     void unlockAccount(Long accountId);
-    Optional<List<AccountResponse>> findAllAccounts();
-    Optional<AccountResponse> findAccountById(Long accountId);
+    Optional<List<AccountCreationResponse>> findAllAccounts();
+    Optional<AccountCreationResponse> findAccountById(Long accountId);
 
 }
