@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.account.AccountCreationRequest;
 import com.silentowl.banking_app.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,19 +12,19 @@ public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    public User mapToUserEntity(UserRequest userRequest) {
+    public User mapToUserEntity(AccountCreationRequest accountRequest) {
         return User.builder()
-                .firstName(userRequest.getFirstName())
-                .lastName(userRequest.getLastName())
-                .dateOfBirth(userRequest.getDateOfBirth())
-                .email(userRequest.getEmail())
-                .password(passwordEncoder.encode(userRequest.getPassword()))
-                .city(userRequest.getCity())
-                .street(userRequest.getStreet())
-                .state(userRequest.getState())
-                .country(userRequest.getCountry())
-                .annualIncome(userRequest.getAnnualIncome())
-                .occupation(userRequest.getOccupation())
+                .firstName(accountRequest.getUserRequest().getFirstName())
+                .lastName(accountRequest.getUserRequest().getLastName())
+                .dateOfBirth(accountRequest.getUserRequest().getDateOfBirth())
+                .email(accountRequest.getUserRequest().getEmail())
+                .password(passwordEncoder.encode(accountRequest.getUserRequest().getPassword()))
+                .city(accountRequest.getUserRequest().getCity())
+                .street(accountRequest.getUserRequest().getStreet())
+                .state(accountRequest.getUserRequest().getState())
+                .country(accountRequest.getUserRequest().getCountry())
+                .annualIncome(accountRequest.getUserRequest().getAnnualIncome())
+                .occupation(accountRequest.getUserRequest().getOccupation())
                 .role(Role.ROLE_CUSTOMER)
                 .build();
     }

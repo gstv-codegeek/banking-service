@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class KycVerificationService {
 
     private static final int MIN_AGE = 18;
-    private static final BigDecimal MIN_INITIAL_DEPOSIT = BigDecimal.valueOf(500);
+//    private static final BigDecimal MIN_INITIAL_DEPOSIT = BigDecimal.valueOf(500);
     private static final BigDecimal MIN_REQUIRED_ANNUAL_INCOME_VALUE = BigDecimal.valueOf(50_000);
     private static final BigDecimal MAX_RISK_ANNUAL_INCOME = BigDecimal.valueOf(180_000);
     private static final int LOWEST_RISK_SCORE = 30;
@@ -26,22 +26,21 @@ public class KycVerificationService {
 
 
 
-
     public KycVerificationResponse verifyCustomer(KycVerificationRequest request) {
 
         //basic validation checks
         boolean isValidAge = validateAge(request.getDateOfBirth());
-        boolean isValidInitialDeposit = validateInitialDeposit(request.getInitialDeposit());
+//        boolean isValidInitialDeposit = validateInitialDeposit(request.getInitialDeposit());
         boolean isValidIncome = validateIncome(request.getAnnualIncome());
 
         // determine risk level and verification status
         RiskLevel riskLevel = determineRiskLevel(request);
-        boolean isVerified = isValidAge && isValidInitialDeposit && isValidIncome;
+        boolean isVerified = isValidAge && isValidIncome;
 
         return KycVerificationResponse.builder()
                 .verified(isVerified)
                 .riskLevel(riskLevel)
-                .rejectionReasons(collectRejectionReasons(isValidAge, isValidInitialDeposit, isValidIncome))
+                .rejectionReasons(collectRejectionReasons(isValidAge, isValidIncome))
                 .build();
     }
 
@@ -50,9 +49,9 @@ public class KycVerificationService {
         return dateOfBirth != null && Period.between(dateOfBirth, LocalDate.now()).getYears() >= MIN_AGE;
     }
 
-    private boolean validateInitialDeposit(BigDecimal initialDeposit) {
-        return initialDeposit != null && initialDeposit.compareTo(MIN_INITIAL_DEPOSIT) >= 0;
-    }
+//    private boolean validateInitialDeposit(BigDecimal initialDeposit) {
+//        return initialDeposit != null && initialDeposit.compareTo(MIN_INITIAL_DEPOSIT) >= 0;
+//    }
 
 
     private boolean validateIncome(BigDecimal annualIncome) {
@@ -60,10 +59,9 @@ public class KycVerificationService {
     }
 
 
-    private List<String> collectRejectionReasons(boolean isValidAge, boolean initialDeposit, boolean isValidIncome) {
+    private List<String> collectRejectionReasons(boolean isValidAge, boolean isValidIncome) {
         List<String> reasons = new ArrayList<>();
         if (!isValidAge) reasons.add("Customer is under 18 years");
-        if (!initialDeposit) reasons.add("Initial deposit is below the minimum required amount");
         if (!isValidIncome) reasons.add("Insufficient annual income");
 
         return reasons;

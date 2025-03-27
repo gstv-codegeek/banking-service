@@ -28,15 +28,20 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit) {
+        // 1. Validate Create account inputs
         validateCreateAccountInput(customer, customerTier, initialDeposit);
+        // 2. Determine account type from customer tier
         AccountType accountType = determineAccountType(customerTier);
-        String accountNumber = generateUniqueAccountNumber();
+        // 3. Determine initial deposit
         validateInitialDeposit(initialDeposit, accountType);
+        // 4. Generate account number
+        String accountNumber = generateUniqueAccountNumber();
 
+        // 5. Create account
         Account account = new Account();
+        account.setIban(accountNumber);
         account.setUser(customer);
         account.setAccountType(accountType);
-        account.setIban(accountNumber);
         account.setBalance(initialDeposit);
         account.setCurrency(String.valueOf(Currency.getInstance("USD")));
         try {

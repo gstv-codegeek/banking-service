@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AccountOrchestrationService {
 
-    private final UserMapper userMapper;
-    private final AccountMapper accountMapper;
-    private final AccountRepository accountRepository;
     private final KycVerificationService kycVerificationService;
     private final UserService userService;
     private final AccountService accountService;
@@ -24,21 +21,19 @@ public class AccountOrchestrationService {
     public AccountCreationResponse createAccountWithKycVerification(AccountCreationRequest accountCreationRequest) {
         // 1. Perform KYC Verification
         KycVerificationRequest kycVerificationRequest = buildKycVerificationRequest(accountCreationRequest);
-
-        // 2. Verify customer
         KycVerificationResponse kycVerificationResponse = kycVerificationService.verifyCustomer(kycVerificationRequest);
 
-        // 3. Determine Customer Tier based on KYC Result
+        // 2. Determine Customer Tier based on KYC Result
         CustomerTier customerTier = determineCustomerTier(kycVerificationResponse);
 
-        // 4. Create Customer with KYC status
+        // 3. Create Customer with KYC status
         User customer = userService.createUser(
                 accountCreationRequest,
                 customerTier,
                 mapKycStatus(kycVerificationResponse)
         );
 
-        // 5. Create Account based on KYC verified Tier
+        // 4. Create Account based on KYC verified Tier
         if (customer == null) throw new IllegalArgumentException("Customer was not created");
         Account account = accountService.createAccount(
                 customer,

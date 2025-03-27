@@ -69,30 +69,45 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    /**
+     * Creates a new customer with KYC verification status
+     *
+     * @param userRequest contains user creation details
+     * @param customerTier determined customer tier based on KYC verification
+     * @param kycStatus KYC verification status
+     * @return Created customer entity
+     * */
     @Override
     @Transactional
-    public User createUser(AccountCreationRequest accountRequest, CustomerTier customerTier, KycVerificationStatus kycVerificationStatus) {
+    public User createUser(AccountCreationRequest userRequest, CustomerTier customerTier, KycVerificationStatus kycStatus) {
 
-        // extract user request
-        UserRequest userRequest = accountRequest.getUserRequest();
-        //save user if they do not already exist
-        User user = userRepository.findByEmail(userRequest.getEmail()).orElse(null);
-        if (user == null) {
-            // create new user
-            user = userMapper.mapToUserEntity(userRequest);
-            user.setCustomerTier(customerTier);
-            user.setKycStatus(kycVerificationStatus);
-            user = userRepository.save(user);
-        }
+        // Validate input
+        validateUserRequest(userRequest);
 
-        // ensure user does not already have an account
-        if (user.getAccount() != null) {
-            throw new RuntimeException("User already have an account");
-        }
+        // Create user entity and set missing fields
+        User user = userMapper.mapToUserEntity(userRequest);
+        user.setCustomerTier(customerTier);
+        user.setKycStatus(kycStatus);
 
-        return user;
+        // Save and return the user
+        return userRepository.save(user);
     }
-
+    private void validateUserRequest(AccountCreationRequest userRequest) {
+        UserRequest request = userRequest.getUserRequest();
+        if (request == null) throw new IllegalArgumentException("User request cannot be null");
+        if (request.getFirstName() == null || request.getFirstName().trim().isEmpty()) throw new IllegalArgumentException("First name is required");
+        if (request.getLastName() == null || request.getLastName().trim().isEmpty()) throw new IllegalArgumentException("Last name is required");
+        if (request.getEmail() == null || !isValidEmail(request.getEmail())) throw new IllegalArgumentException("Invalid email");
+        if (request.getDateOfBirth() == null) throw new IllegalArgumentException("Date of birth is required");
+        if (request.getInitialDeposit() == null) throw new IllegalArgumentException("Initial deposit is required");
+        if (request.getAnnualIncome() == null) throw new IllegalArgumentException("Annual income is required");
+        if (request.getOccupation() == null) throw new IllegalArgumentException("Occupation is required");
+    }
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email != null && email.matches(emailRegex);
+    }
 
     @Override
     public void updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
