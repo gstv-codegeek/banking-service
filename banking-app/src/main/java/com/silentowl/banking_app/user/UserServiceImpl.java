@@ -5,6 +5,7 @@ import com.silentowl.banking_app.account.AccountCreationRequest;
 import com.silentowl.banking_app.account.AccountMapper;
 import com.silentowl.banking_app.account.AccountRepository;
 import com.silentowl.banking_app.exceptions.UserNotFoundException;
+import com.silentowl.banking_app.kyc.KycVerificationRequest;
 import com.silentowl.banking_app.role.Role;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,6 +44,7 @@ public class UserServiceImpl implements UserService {
             User user = new User();
             user.setFirstName("SYSTEM");
             user.setLastName("ADMIN");
+            user.setDateOfBirth(LocalDate.of(2000, 12, 12));
             user.setEmail("admin@e-banking.com");
             user.setRole(Role.ROLE_ADMIN);
             user.setPassword(passwordEncoder.encode("admin"));
@@ -52,6 +56,10 @@ public class UserServiceImpl implements UserService {
             user.setCity("Nairobi");
             user.setState("Nairobi County");
             user.setCountry("Kenya");
+
+            user.setInitialDeposit(BigDecimal.valueOf(500));
+            user.setAnnualIncome(BigDecimal.valueOf(200_000));
+            user.setOccupation("Software Engineer");
 
             userRepository.save(user);
             log.info("Default admin created successfully");
@@ -72,7 +80,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void createUserWithAccount(AccountCreationRequest accountRequest) {
-        System.out.println(accountRequest.getUserRequest());
+        // 1. Perform KYC Verification
+        KycVerificationRequest kycRequest = buildKycVerificationRequest(accountRequest);
         // extract user request
         UserRequest userRequest = accountRequest.getUserRequest();
         //check if user already exists
@@ -101,6 +110,16 @@ public class UserServiceImpl implements UserService {
             newIban = Iban.random().getAccountNumber();
         } while (accountRepository.existsByIban(newIban));
         return newIban;
+    }
+    private KycVerificationRequest buildKycVerificationRequest(AccountCreationRequest request) {
+        KycVerificationRequest kycRequest = new KycVerificationRequest();
+        kycRequest.setFirstName(request.getUserRequest().getFirstName());
+        kycRequest.setLastName(request.getUserRequest().getLastName());
+        kycRequest.setInitialDeposit(request.getUserRequest().getInitialDeposit());
+        kycRequest.setAnnualIncome(request.getUserRequest().getAnnualIncome());
+        kycRequest.setOccupation(request.getUserRequest().getOccupation());
+
+        return kycRequest;
     }
 
     @Override

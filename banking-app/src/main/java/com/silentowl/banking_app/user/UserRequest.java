@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,6 +20,8 @@ public class UserRequest {
     private String firstName;
     @NotBlank(message = "Last name cannot be empty")
     private String lastName;
+    @NotBlank(message = "Date of birth cannot be empty")
+    private LocalDate dateOfBirth;
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email must be valid")
     private String email;
@@ -34,4 +39,12 @@ public class UserRequest {
     private String state;
     @NotBlank(message = "Country cannot be blank")
     private String country;
+
+    // Financial details
+    @NotBlank(message = "Initial deposit cannot be blank")
+    private BigDecimal initialDeposit;
+    @NotBlank(message = "Annual Income cannot be blank")
+    private BigDecimal annualIncome;
+    @NotBlank(message = "Occupation cannot be blank")
+    private String occupation;
 }

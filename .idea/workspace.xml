@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/RiskLevel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/CustomerTier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountCreationResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +100,7 @@
       <workItem from="1742973177397" duration="15183000" />
       <workItem from="1743014939730" duration="7345000" />
       <workItem from="1743023880658" duration="105000" />
-      <workItem from="1743024012321" duration="5778000" />
+      <workItem from="1743024012321" duration="9439000" />
     </task>
     <servers />
   </component>

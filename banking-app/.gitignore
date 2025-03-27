@@ -12,7 +12,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-.yaml
 
 ### IntelliJ IDEA ###
 .idea
@@ -32,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Ignore all yaml files
+*.yaml
+*.yml

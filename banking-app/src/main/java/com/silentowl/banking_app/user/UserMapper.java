@@ -15,12 +15,16 @@ public class UserMapper {
         return User.builder()
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
+                .dateOfBirth(userRequest.getDateOfBirth())
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .city(userRequest.getCity())
                 .street(userRequest.getStreet())
                 .state(userRequest.getState())
                 .country(userRequest.getCountry())
+                .initialDeposit(userRequest.getInitialDeposit())
+                .annualIncome(userRequest.getAnnualIncome())
+                .occupation(userRequest.getOccupation())
                 .role(Role.ROLE_CUSTOMER)
                 .build();
     }
@@ -30,11 +34,15 @@ public class UserMapper {
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .dateOfBirth(user.getDateOfBirth())
                 .email(user.getEmail())
                 .street(user.getStreet())
                 .city(user.getCity())
                 .state(user.getState())
                 .country(user.getCountry())
+                .initialDeposit(user.getInitialDeposit())
+                .annualIncome(user.getAnnualIncome())
+                .occupation(user.getOccupation())
                 .build();
     }
 }

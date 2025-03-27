@@ -10,6 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,10 +28,20 @@ public class User extends AbstractEntity implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
 
     // Address info
     @Column(nullable = false)
@@ -41,17 +53,17 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(nullable = false)
     private String country;
 
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
+    // financial info
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Account account;
 
+    private BigDecimal initialDeposit;
+    private BigDecimal annualIncome;
+    private String occupation;
+
+
+    // Inherited methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
