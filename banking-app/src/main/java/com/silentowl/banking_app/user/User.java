@@ -2,6 +2,7 @@ package com.silentowl.banking_app.user;
 
 import com.silentowl.banking_app.account.Account;
 import com.silentowl.banking_app.common.AbstractEntity;
+import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,13 +55,20 @@ public class User extends AbstractEntity implements UserDetails {
     private String country;
 
 
-    // financial info
+    // account info
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Account account;
 
-    private BigDecimal initialDeposit;
     private BigDecimal annualIncome;
     private String occupation;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CustomerTier customerTier;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private KycVerificationStatus kycStatus;
 
 
     // Inherited methods

@@ -5,12 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountOrchestrationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/exceptions/AccountCreationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountCreationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountCreationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/configuration/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/kyc/KycVerificationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,18 +33,22 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -67,6 +86,12 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/banking-app" />
+      <recent name="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="BankingAppApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="banking-app" />
@@ -100,7 +125,9 @@
       <workItem from="1742973177397" duration="15183000" />
       <workItem from="1743014939730" duration="7345000" />
       <workItem from="1743023880658" duration="105000" />
-      <workItem from="1743024012321" duration="9439000" />
+      <workItem from="1743024012321" duration="13629000" />
+      <workItem from="1743059368335" duration="19150000" />
+      <workItem from="1743080521021" duration="2880000" />
     </task>
     <servers />
   </component>

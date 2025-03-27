@@ -22,7 +22,6 @@ public class UserMapper {
                 .street(userRequest.getStreet())
                 .state(userRequest.getState())
                 .country(userRequest.getCountry())
-                .initialDeposit(userRequest.getInitialDeposit())
                 .annualIncome(userRequest.getAnnualIncome())
                 .occupation(userRequest.getOccupation())
                 .role(Role.ROLE_CUSTOMER)
@@ -40,9 +39,10 @@ public class UserMapper {
                 .city(user.getCity())
                 .state(user.getState())
                 .country(user.getCountry())
-                .initialDeposit(user.getInitialDeposit())
                 .annualIncome(user.getAnnualIncome())
                 .occupation(user.getOccupation())
+                .customerTier(user.getCustomerTier())
+                .kycStatus(user.getKycStatus())
                 .build();
     }
 }

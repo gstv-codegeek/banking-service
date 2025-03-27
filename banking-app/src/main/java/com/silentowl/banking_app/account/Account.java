@@ -22,11 +22,24 @@ public class Account extends AbstractEntity {
 
     @Column(nullable = false, unique = true)
     private String iban;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    private String accountType;
-    private String currency;
+
+    private BigDecimal initialDeposit;
+
+    @Column(nullable = false)
     private BigDecimal balance;
-    private boolean locked;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountType accountType;
+
+    @Column(nullable = false)
+    private String currency;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus status;
 }

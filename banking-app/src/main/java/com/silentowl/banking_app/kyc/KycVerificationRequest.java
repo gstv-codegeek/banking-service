@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.kyc;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;

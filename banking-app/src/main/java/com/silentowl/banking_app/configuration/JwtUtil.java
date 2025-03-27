@@ -42,7 +42,7 @@ public class JwtUtil {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        System.out.println("Expiration" + expiration);
+//        System.out.println("Expiration" + expiration);
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())

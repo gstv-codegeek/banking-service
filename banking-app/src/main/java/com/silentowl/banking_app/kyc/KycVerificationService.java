@@ -1,6 +1,5 @@
 package com.silentowl.banking_app.kyc;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,30 +14,17 @@ import java.util.stream.Collectors;
 @Service
 public class KycVerificationService {
 
-    @Value("${app.kyc.min-age}")
-    private int MIN_AGE;
+    private static final int MIN_AGE = 18;
+    private static final BigDecimal MIN_INITIAL_DEPOSIT = BigDecimal.valueOf(500);
+    private static final BigDecimal MIN_REQUIRED_ANNUAL_INCOME_VALUE = BigDecimal.valueOf(50_000);
+    private static final BigDecimal MAX_RISK_ANNUAL_INCOME = BigDecimal.valueOf(180_000);
+    private static final int LOWEST_RISK_SCORE = 30;
+    private static final int MEDIUM_RISK_SCORE = 60;
+    private static final int MIN_HIGH_RISK_AGE = 25;
+    private static final int MAX_HIGH_RISK_AGE = 65;
+    private static final String HIGH_RISK_OCCUPATIONS = "Politician, Cash-intensive Business, Cryptocurrency Trader";
 
-    @Value("${app.kyc.min-initial-deposit}")
-    private BigDecimal MIN_INITIAL_DEPOSIT;
 
-    @Value("${app.kyc.min-required-annual-income}")
-    private BigDecimal MIN_REQUIRED_ANNUAL_INCOME_VALUE;
-
-    @Value("${app.kyc.max-risk-annual-income}")
-    private BigDecimal MAX_RISK_ANNUAL_INCOME;
-
-    @Value("${app.kyc.lowest-risk-score}")
-    private int LOWEST_RISK_SCORE;
-    @Value("${app.kyc.medium-risk-score}")
-    private int MEDIUM_RISK_SCORE;
-
-    @Value("${app.kyc.min-high-risk-age}")
-    private int MIN_HIGH_RISK_AGE;
-    @Value("${app.kyc.max-high-risk-age}")
-    private int MAX_HIGH_RISK_AGE;
-
-    @Value("${app.kyc.occupation-risk.high-risk}")
-    private String HIGH_RISK_OCCUPATIONS;
 
 
     public KycVerificationResponse verifyCustomer(KycVerificationRequest request) {

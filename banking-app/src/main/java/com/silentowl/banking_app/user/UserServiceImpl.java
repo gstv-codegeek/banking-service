@@ -5,12 +5,11 @@ import com.silentowl.banking_app.account.AccountCreationRequest;
 import com.silentowl.banking_app.account.AccountMapper;
 import com.silentowl.banking_app.account.AccountRepository;
 import com.silentowl.banking_app.exceptions.UserNotFoundException;
-import com.silentowl.banking_app.kyc.KycVerificationRequest;
+import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.role.Role;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -57,9 +56,11 @@ public class UserServiceImpl implements UserService {
             user.setState("Nairobi County");
             user.setCountry("Kenya");
 
-            user.setInitialDeposit(BigDecimal.valueOf(500));
             user.setAnnualIncome(BigDecimal.valueOf(200_000));
             user.setOccupation("Software Engineer");
+
+            user.setKycStatus(KycVerificationStatus.VERIFIED);
+            user.setCustomerTier(CustomerTier.SILVER);
 
             userRepository.save(user);
             log.info("Default admin created successfully");
@@ -68,27 +69,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public void createUser(UserRequest userRequest) {
-//        if (userRepository.existsByEmail(userRequest.getEmail())) {
-//            throw new RuntimeException("Email already exists");
-//        }
-//        User user = userMapper.mapToUserEntity(userRequest);
-//        userRepository.save(user);
-//    }
-
     @Override
     @Transactional
-    public void createUserWithAccount(AccountCreationRequest accountRequest) {
-        // 1. Perform KYC Verification
-        KycVerificationRequest kycRequest = buildKycVerificationRequest(accountRequest);
+    public User createUser(AccountCreationRequest accountRequest, CustomerTier customerTier, KycVerificationStatus kycVerificationStatus) {
+
         // extract user request
         UserRequest userRequest = accountRequest.getUserRequest();
-        //check if user already exists
+        //save user if they do not already exist
         User user = userRepository.findByEmail(userRequest.getEmail()).orElse(null);
         if (user == null) {
             // create new user
             user = userMapper.mapToUserEntity(userRequest);
+            user.setCustomerTier(customerTier);
+            user.setKycStatus(kycVerificationStatus);
             user = userRepository.save(user);
         }
 
@@ -97,30 +90,9 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User already have an account");
         }
 
-        // generate a unique iban
-        final String iban = generateIban();
-        //create account and associate it with user
-        Account account = accountMapper.mapToAccountEntity(iban, user);
-        accountRepository.save(account);
+        return user;
+    }
 
-    }
-    private String generateIban() {
-        String newIban;
-        do {
-            newIban = Iban.random().getAccountNumber();
-        } while (accountRepository.existsByIban(newIban));
-        return newIban;
-    }
-    private KycVerificationRequest buildKycVerificationRequest(AccountCreationRequest request) {
-        KycVerificationRequest kycRequest = new KycVerificationRequest();
-        kycRequest.setFirstName(request.getUserRequest().getFirstName());
-        kycRequest.setLastName(request.getUserRequest().getLastName());
-        kycRequest.setInitialDeposit(request.getUserRequest().getInitialDeposit());
-        kycRequest.setAnnualIncome(request.getUserRequest().getAnnualIncome());
-        kycRequest.setOccupation(request.getUserRequest().getOccupation());
-
-        return kycRequest;
-    }
 
     @Override
     public void updateUser(Long userId, UserUpdateRequest userUpdateRequest) {

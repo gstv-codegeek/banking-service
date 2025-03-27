@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -23,8 +24,10 @@ public class UserResponse {
     private String city;
     private String state;
     private String country;
-    // financial info
+    // account info
     private BigDecimal initialDeposit;
     private BigDecimal annualIncome;
     private String occupation;
+    private CustomerTier customerTier;
+    private KycVerificationStatus kycStatus;
 }

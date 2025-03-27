@@ -1,5 +1,6 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -18,12 +18,12 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ADMIN')")
-    public void createUser(@Valid @RequestBody AccountCreationRequest accountCreationRequest) {
-        userService.createUserWithAccount(accountCreationRequest);
-    }
+//    @PostMapping()
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public void createUser(@Valid @RequestBody AccountCreationRequest accountCreationRequest) {
+//        userService.createUserWithAccount(accountCreationRequest);
+//    }
 
     @PutMapping("/{user-id}")
     @ResponseStatus(HttpStatus.OK)
