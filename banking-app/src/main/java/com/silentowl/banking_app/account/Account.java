@@ -1,6 +1,7 @@
 package com.silentowl.banking_app.account;
 
 import com.silentowl.banking_app.common.AbstractEntity;
+import com.silentowl.banking_app.transaction.Transaction;
 import com.silentowl.banking_app.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,4 +45,8 @@ public class Account extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountStatus status;
+
+    // transactions
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 }

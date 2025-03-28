@@ -27,7 +27,7 @@ public class AccountOrchestrationService {
         if (!kycVerificationResponse.isVerified()) {
             throw new IllegalArgumentException("User is not eligible to create an account on their own." + kycVerificationResponse.getRejectionReasons());
         }
-        log.info("Customer risk level: {}", kycVerificationResponse.getRiskLevel());
+        log.info("Customer Risk level: {}", kycVerificationResponse.getRiskLevel());
 
         // 2. Determine Customer Tier based on KYC Result
         CustomerTier customerTier = determineCustomerTier(kycVerificationResponse);

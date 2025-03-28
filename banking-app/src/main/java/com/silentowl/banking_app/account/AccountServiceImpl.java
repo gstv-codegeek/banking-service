@@ -16,16 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private static final String BANK_CODE = "0063";
+    private static final String BRANCH_CODE = "011";
 
     @Override
     @Transactional
@@ -54,7 +53,6 @@ public class AccountServiceImpl implements AccountService {
                 : AccountStatus.INACTIVE
         );
         account.setCurrency(String.valueOf(Currency.getInstance("KES").getCurrencyCode()));
-//        account.setCurrency("KES");
         try {
             account = accountRepository.save(account);
 
@@ -90,12 +88,10 @@ public class AccountServiceImpl implements AccountService {
         };
     }
     private String generateUniqueAccountNumber() {
-        String newIban;
-        do newIban = String.valueOf(new Iban.Builder().countryCode(CountryCode.KE).bankCode("011").branchCode("063").buildRandom());
-            while (accountRepository.existsByIban(newIban));
-
-        return newIban;
+        String uniqueId = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+        return BRANCH_CODE + uniqueId + " " +BANK_CODE;
     }
+
 //    private void createInitialDepositTransaction(Account account, BigDecimal initialDeposit) {
 //        Transaction initialTransaction = new Transaction();
 //        initialTransaction.setAccount(account);
@@ -106,6 +102,7 @@ public class AccountServiceImpl implements AccountService {
 //
 //        transactionRepository.save(initialTransaction);
 //    }
+
     // ==== END ACCOUNT CREATION LOGIC ==== //
 
 
