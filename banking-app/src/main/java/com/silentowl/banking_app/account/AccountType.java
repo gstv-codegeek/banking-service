@@ -4,5 +4,4 @@ public enum AccountType {
     ELITE,
     PREMIUM,
     STANDARD,
-    BASIC
 }

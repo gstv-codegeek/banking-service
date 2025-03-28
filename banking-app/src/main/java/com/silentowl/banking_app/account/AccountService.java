@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit);
+    Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit, AccountType accountType);
     void lockAccount(Long accountId);
     void unlockAccount(Long accountId);
     Optional<List<AccountCreationResponse>> findAllAccounts();

@@ -9,6 +9,7 @@ import com.silentowl.banking_app.kyc.KycVerificationService;
 import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.user.*;
 import lombok.RequiredArgsConstructor;
+import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -27,32 +29,41 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit) {
+    public Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit, AccountType accountType) {
+
         // 1. Validate Create account inputs
         validateCreateAccountInput(customer, customerTier, initialDeposit);
-        // 2. Determine account type from customer tier
-        AccountType accountType = determineAccountType(customerTier);
-        // 3. Determine initial deposit
+
+        // 2. Determine initial deposit
         validateInitialDeposit(initialDeposit, accountType);
-        // 4. Generate account number
+
+        // 3. Generate account number
         String accountNumber = generateUniqueAccountNumber();
 
-        // 5. Create account
+        // 4. Create account
+        System.out.println(accountNumber + " - " + customer.getFirstName() + " - " + accountType + " - " + initialDeposit);
         Account account = new Account();
         account.setIban(accountNumber);
         account.setUser(customer);
         account.setAccountType(accountType);
         account.setBalance(initialDeposit);
-        account.setCurrency(String.valueOf(Currency.getInstance("USD")));
+        account.setInitialDeposit(initialDeposit);
+        account.setStatus(
+                initialDeposit.compareTo(getMinimumDepositForAccountType(accountType)) >= 0
+                ? AccountStatus.ACTIVE
+                : AccountStatus.INACTIVE
+        );
+        account.setCurrency(String.valueOf(Currency.getInstance("KES").getCurrencyCode()));
+//        account.setCurrency("KES");
         try {
             account = accountRepository.save(account);
 
+            return account;
             // Create initial transaction record
 //            createInitialDepositTransaction(account, initialDeposit);
         } catch (Exception e) {
             throw new AccountCreationException("Failed to create account");
         }
-        return null;
     }
 
     private void validateCreateAccountInput(User customer, CustomerTier customerTier, BigDecimal initialDeposit) {
@@ -61,35 +72,26 @@ public class AccountServiceImpl implements AccountService {
         if (initialDeposit == null || initialDeposit.compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("Initial deposit must not be non-negative");
     }
-    private AccountType determineAccountType(CustomerTier customerTier) {
-        return switch (customerTier) {
-            case PLATINUM -> AccountType.ELITE;
-            case GOLD -> AccountType.PREMIUM;
-            case SILVER -> AccountType.STANDARD;
-            case BASIC -> AccountType.BASIC;
-            default -> throw new IllegalArgumentException("Unsupported customer tier");
-        };
-    }
+
     private void validateInitialDeposit(BigDecimal initialDeposit, AccountType accountType) {
         BigDecimal minimumDeposit = getMinimumDepositForAccountType(accountType);
         if (initialDeposit.compareTo(minimumDeposit) < 0) {
-            throw new TransactionException(
-                    "Minimum initial deposit for " + accountType + " is " + minimumDeposit
+            throw new IllegalArgumentException(
+                    "Minimum initial deposit required for opening a " + accountType + " ACCOUNT is " + minimumDeposit
             );
         }
     }
     private BigDecimal getMinimumDepositForAccountType(AccountType accountType) {
         return switch (accountType) {
-            case ELITE -> BigDecimal.valueOf(20000.00);
-            case PREMIUM -> BigDecimal.valueOf(10000.00);
-            case STANDARD -> BigDecimal.valueOf(3000.00);
-            case BASIC -> BigDecimal.valueOf(500.00);
-            default -> BigDecimal.ZERO;
+            case ELITE -> BigDecimal.valueOf(10000.00);
+            case PREMIUM -> BigDecimal.valueOf(5000.00);
+            case STANDARD -> BigDecimal.valueOf(500.00);
+            default -> throw new IllegalArgumentException("Unsupported account type");
         };
     }
     private String generateUniqueAccountNumber() {
         String newIban;
-        do newIban = Iban.random().getAccountNumber();
+        do newIban = String.valueOf(new Iban.Builder().countryCode(CountryCode.KE).bankCode("011").branchCode("063").buildRandom());
             while (accountRepository.existsByIban(newIban));
 
         return newIban;

@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleTransactionException(TransactionException e) {
         Map<String, Object> error = new HashMap<>();
         error.put("error", e.getMessage());
-        log.error("Transaction error: {}", e.getMessage());
+        log.error("Transaction error: {}", e.getMessage(), e);
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 

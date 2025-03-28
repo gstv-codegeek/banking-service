@@ -1,8 +1,10 @@
 package com.silentowl.banking_app.user;
 
+import com.silentowl.banking_app.account.AccountType;
 import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -21,7 +23,7 @@ public class UserRequest {
     private String firstName;
     @NotBlank(message = "Last name cannot be empty")
     private String lastName;
-    @NotBlank(message = "Date of birth cannot be empty")
+    @NotNull(message = "Date of birth cannot be empty")
     private LocalDate dateOfBirth;
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email must be valid")
@@ -42,9 +44,11 @@ public class UserRequest {
     private String country;
 
     // Financial details
-    @NotBlank(message = "Initial deposit cannot be blank")
+    @NotNull(message = "Initial deposit cannot be blank")
     private BigDecimal initialDeposit;
-    @NotBlank(message = "Annual Income cannot be blank")
+    @NotNull(message = "Account Type cannot be blank")
+    private AccountType accountType;
+    @NotNull(message = "Annual Income cannot be blank")
     private BigDecimal annualIncome;
     @NotBlank(message = "Occupation cannot be blank")
     private String occupation;

@@ -85,6 +85,9 @@ public class UserServiceImpl implements UserService {
         // Validate input
         validateUserRequest(userRequest);
 
+        // Validate KYC status
+        validateKycStatus(kycStatus);
+
         // Create user entity and set missing fields
         User user = userMapper.mapToUserEntity(userRequest);
         user.setCustomerTier(customerTier);
@@ -108,6 +111,10 @@ public class UserServiceImpl implements UserService {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(emailRegex);
     }
+    private void validateKycStatus(KycVerificationStatus kycStatus) {
+        if (kycStatus.equals(KycVerificationStatus.REJECTED)) throw new IllegalArgumentException("Customer is not eligible to create account on their own");
+    }
+
 
     @Override
     public void updateUser(Long userId, UserUpdateRequest userUpdateRequest) {

@@ -6,9 +6,11 @@ import com.silentowl.banking_app.kyc.KycVerificationService;
 import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.user.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountOrchestrationService {
@@ -22,9 +24,14 @@ public class AccountOrchestrationService {
         // 1. Perform KYC Verification
         KycVerificationRequest kycVerificationRequest = buildKycVerificationRequest(accountCreationRequest);
         KycVerificationResponse kycVerificationResponse = kycVerificationService.verifyCustomer(kycVerificationRequest);
+        if (!kycVerificationResponse.isVerified()) {
+            throw new IllegalArgumentException("User is not eligible to create an account on their own." + kycVerificationResponse.getRejectionReasons());
+        }
+        log.info("Customer risk level: {}", kycVerificationResponse.getRiskLevel());
 
         // 2. Determine Customer Tier based on KYC Result
         CustomerTier customerTier = determineCustomerTier(kycVerificationResponse);
+        log.info("Customer Tier: {}", customerTier);
 
         // 3. Create Customer with KYC status
         User customer = userService.createUser(
@@ -35,10 +42,12 @@ public class AccountOrchestrationService {
 
         // 4. Create Account based on KYC verified Tier
         if (customer == null) throw new IllegalArgumentException("Customer was not created");
+//        System.out.println(customerTier + " - " + accountCreationRequest.getUserRequest().getInitialDeposit());
         Account account = accountService.createAccount(
                 customer,
                 customerTier, // eg. GOLD, PLATINUM, SILVER, BASIC
-                accountCreationRequest.getUserRequest().getInitialDeposit()
+                accountCreationRequest.getUserRequest().getInitialDeposit(),
+                accountCreationRequest.getUserRequest().getAccountType()
         );
 
         return buildAccountCreationResponse(customer, account);
@@ -59,7 +68,6 @@ public class AccountOrchestrationService {
             case LOW -> CustomerTier.PLATINUM;
             case MEDIUM -> CustomerTier.GOLD;
             case HIGH -> CustomerTier.SILVER;
-            default -> CustomerTier.BASIC;
         };
     }
     private KycVerificationStatus mapKycStatus(KycVerificationResponse kycVerificationResponse) {
@@ -69,12 +77,20 @@ public class AccountOrchestrationService {
     }
     private AccountCreationResponse buildAccountCreationResponse(User customer, Account account) {
         AccountCreationResponse response = new AccountCreationResponse();
+        // set personal info
         response.setCustomerId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
         response.setEmail(customer.getEmail());
+
         response.setCustomerTier(customer.getCustomerTier());
         response.setKycStatus(customer.getKycStatus());
+
+        // set address details
+        response.setStreet(customer.getStreet());
+        response.setCity(customer.getCity());
+        response.setState(customer.getState());
+        response.setCountry(customer.getCountry());
 
         // set account details
         response.setAccountNumber(account.getIban());
