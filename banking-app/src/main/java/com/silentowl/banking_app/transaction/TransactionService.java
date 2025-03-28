@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public interface TransactionService {
 
-    void processDeposit(Account account, BigDecimal amount);
-    void processWithdrawal(Account account, BigDecimal amount);
-    void processTransfer(Account sourceAccount, Account destinationAccount, BigDecimal amount);
+    void processDeposit(Long accountId, BigDecimal amount);
+    void processWithdrawal(Long accountId, BigDecimal amount);
+    void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount);
 }
