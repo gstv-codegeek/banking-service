@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/Transaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionDirection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/exceptions/InsufficientFundsException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountOrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountOrchestrationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +22,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -118,7 +111,7 @@
       <workItem from="1743059368335" duration="19150000" />
       <workItem from="1743080521021" duration="2880000" />
       <workItem from="1743105416917" duration="10825000" />
-      <workItem from="1743151297593" duration="21794000" />
+      <workItem from="1743151297593" duration="27739000" />
     </task>
     <servers />
   </component>
