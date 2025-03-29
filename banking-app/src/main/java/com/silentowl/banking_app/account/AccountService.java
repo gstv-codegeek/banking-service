@@ -18,7 +18,7 @@ public interface AccountService {
 
     void freezeAccount(Long accountId);
 
-    Optional<List<AccountCreationResponse>> findAllAccounts();
+    List<AccountCreationResponse> findAllAccounts();
 
-    Optional<AccountCreationResponse> findAccountById(Long accountId);
+    List<AccountCreationResponse> findAccountById(Long accountId);
 }

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +111,7 @@
       <workItem from="1743080521021" duration="2880000" />
       <workItem from="1743105416917" duration="10825000" />
       <workItem from="1743151297593" duration="35316000" />
-      <workItem from="1743235929946" duration="34590000" />
+      <workItem from="1743235929946" duration="35627000" />
     </task>
     <servers />
   </component>

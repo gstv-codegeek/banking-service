@@ -14,12 +14,14 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final TransactionService transactionService;
+    private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
     private static final String BANK_CODE = "0063";
     private static final String BRANCH_CODE = "011";
@@ -118,13 +120,14 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Optional<List<AccountCreationResponse>> findAllAccounts() {
-        return Optional.empty();
+    public List<AccountCreationResponse> findAllAccounts() {
+        return accountRepository.findAll().stream().map(accountMapper::mapToAccountResponse).toList();
     }
 
 
     @Override
-    public Optional<AccountCreationResponse> findAccountById(Long accountId) {
-        return Optional.empty();
+    public List<AccountCreationResponse> findAccountById(Long accountId) {
+        return accountRepository.findById(accountId).stream().map(accountMapper::mapToAccountResponse).toList();
     }
+
 }
