@@ -1,24 +1,19 @@
 package com.silentowl.banking_app.account;
 
 import com.silentowl.banking_app.exceptions.AccountCreationException;
-import com.silentowl.banking_app.exceptions.TransactionException;
-import com.silentowl.banking_app.exceptions.UserNotFoundException;
-import com.silentowl.banking_app.kyc.KycVerificationRequest;
-import com.silentowl.banking_app.kyc.KycVerificationResponse;
-import com.silentowl.banking_app.kyc.KycVerificationService;
-import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.transaction.TransactionService;
-import com.silentowl.banking_app.user.*;
+import com.silentowl.banking_app.user.CustomerTier;
+import com.silentowl.banking_app.user.User;
 import lombok.RequiredArgsConstructor;
-import org.iban4j.CountryCode;
-import org.iban4j.Iban;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -88,39 +83,37 @@ public class AccountServiceImpl implements AccountService {
             case ELITE -> BigDecimal.valueOf(10000.00);
             case PREMIUM -> BigDecimal.valueOf(5000.00);
             case STANDARD -> BigDecimal.valueOf(500.00);
-            default -> throw new IllegalArgumentException("Unsupported account type");
         };
     }
     private String generateUniqueAccountNumber() {
         String uniqueId = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-        return BRANCH_CODE + uniqueId + " " +BANK_CODE;
+        return BRANCH_CODE + uniqueId + " " + BANK_CODE;
     }
-
-    // create initial transaction
-
-//    private void createInitialDepositTransaction(Account account, BigDecimal initialDeposit) {
-//        Transaction initialTransaction = new Transaction();
-//        initialTransaction.setAccount(account);
-//        initialTransaction.setAmount(initialDeposit);
-//        initialTransaction.setType(TransactionType.DEPOSIT);
-//        initialTransaction.setDescription("Initial Account Deposit");
-//        initialTransaction.setTimestamp(LocalDateTime.now());
-//
-//        transactionRepository.save(initialTransaction);
-//    }
 
     // ==== END ACCOUNT CREATION LOGIC ==== //
 
 
     @Override
-    public void lockAccount(Long accountId) {
-
+    public void activateAccount(Long accountId) {
+        Account existingAccount = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + accountId));
+        existingAccount.setStatus(AccountStatus.ACTIVE);
     }
 
 
     @Override
-    public void unlockAccount(Long accountId) {
+    public void closeAccount(Long accountId) {
+        Account existingAccount = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + accountId));
+        existingAccount.setStatus(AccountStatus.CLOSED);
+    }
 
+
+    @Override
+    public void freezeAccount(Long accountId) {
+        Account existingAccount = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + accountId));
+        existingAccount.setStatus(AccountStatus.FROZEN);
     }
 
 

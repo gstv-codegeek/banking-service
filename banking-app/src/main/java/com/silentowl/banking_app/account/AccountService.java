@@ -11,8 +11,13 @@ import java.util.Optional;
 public interface AccountService {
 
     Account createAccount(User customer, CustomerTier customerTier, BigDecimal initialDeposit, AccountType accountType);
-    void lockAccount(Long accountId);
-    void unlockAccount(Long accountId);
+
+    void activateAccount(Long accountId);
+
+    void closeAccount(Long accountId);
+
+    void freezeAccount(Long accountId);
+
     Optional<List<AccountCreationResponse>> findAllAccounts();
 
     Optional<AccountCreationResponse> findAccountById(Long accountId);
