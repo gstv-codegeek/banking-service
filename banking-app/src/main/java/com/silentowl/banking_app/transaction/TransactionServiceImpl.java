@@ -5,23 +5,27 @@ import com.silentowl.banking_app.account.AccountRepository;
 import com.silentowl.banking_app.exceptions.InsufficientFundsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
 
     @Transactional
-    public void processDeposit(Long accountId, BigDecimal amount) {
+    public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser) {
+
+        validateUser(connectedUser, accountId);
         validateAmount(amount);
 
         // Lock account to prevent race conditions
@@ -44,11 +48,13 @@ public class TransactionServiceImpl implements TransactionService{
         accountRepository.updateBalance(accountId, amount);
 
         log.info("Deposit of {} to account {} completed successfully", amount, accountId);
+
     }
 
 
     @Transactional
-    public void processWithdrawal(Long accountId, BigDecimal amount) {
+    public void processWithdrawal(Long accountId, BigDecimal amount, Authentication connectedUser) {
+        validateUser(connectedUser, accountId);
         validateAmount(amount);
 
         // Lock account to prevent race conditions
@@ -74,7 +80,8 @@ public class TransactionServiceImpl implements TransactionService{
 
 
     @Transactional
-    public void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount) {
+    public void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount, Authentication connectedUser) {
+        validateUser(connectedUser, sourceAccountId);
         validateAmount(amount);
 
         // Lock accounts to prevent race conditions
@@ -122,6 +129,15 @@ public class TransactionServiceImpl implements TransactionService{
                 .direction(direction)
                 .description(description)
                 .build();
+    }
+
+    private void validateUser(Authentication connectedUser, Long accountId) {
+        // ensure account belongs to this user
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
+        if (!Objects.equals(connectedUser.getPrincipal(), account.getUser())) {
+            log.error("Customer {} does not own account {} !", connectedUser.getPrincipal(), accountId);
+        }
     }
 
     private void validateAmount(BigDecimal amount) {

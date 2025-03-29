@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Table(name = "transactions")
 public class Transaction extends AbstractEntity {
 
     @ManyToOne
