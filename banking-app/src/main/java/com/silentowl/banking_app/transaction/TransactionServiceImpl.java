@@ -112,7 +112,7 @@ public class TransactionServiceImpl implements TransactionService {
         // atomic account balance updates
         accountRepository.updateBalance(sourceAccountId, amount.negate());
         accountRepository.updateBalance(destinationAccountId, amount);
-        log.info("Transfer of {} from account {} to account {}", amount, sourceAccountId, destinationAccountId);
+        log.info("Transfer of {} from account {} to account {} completed successfully", amount, sourceAccountId, destinationAccountId);
 
     }
 

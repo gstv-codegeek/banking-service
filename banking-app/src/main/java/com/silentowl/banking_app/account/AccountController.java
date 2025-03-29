@@ -2,6 +2,7 @@ package com.silentowl.banking_app.account;
 
 import com.silentowl.banking_app.transaction.DepositRequest;
 import com.silentowl.banking_app.transaction.TransactionService;
+import com.silentowl.banking_app.transaction.TransferFundsRequest;
 import com.silentowl.banking_app.transaction.WithdrawalRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class AccountController {
         String username = connectedUser.getName();
         log.info("User {} is attempting to deposit {} into account {}", username, depositRequest.getAmount(), accountId);
         transactionService.processDeposit(accountId, depositRequest.getAmount(), connectedUser);
-        return ResponseEntity.ok("Deposit of " + depositRequest.getAmount() + " to account " + accountId + " successful.");
+        return ResponseEntity.ok("Deposit of " + depositRequest.getAmount() + " to account " + accountId + " is successful.");
     }
 
 
@@ -46,9 +47,15 @@ public class AccountController {
         String username = connectedUser.getName();
         log.info("User {} is attempting to withdraw {} from account {}", username, withdrawalRequest.getAmount(), accountId);
         transactionService.processWithdrawal(accountId, withdrawalRequest.getAmount(), connectedUser);
-        return ResponseEntity.ok("Withdrawal of " + withdrawalRequest.getAmount() + " from account " + accountId + " successful.");
+        return ResponseEntity.ok("Withdrawal of " + withdrawalRequest.getAmount() + " from account " + accountId + " is successful.");
     }
 
 
-
+    @PostMapping("/source/{source-account-id}/destination/{destination-account-id}/transfer")
+    public ResponseEntity<String> processTransfer(@PathVariable("source-account-id") Long sourceAccountId, @PathVariable("destination-account-id") Long destinationAccountId, @RequestBody TransferFundsRequest transferRequest, Authentication connectedUser) {
+        String username = connectedUser.getName();
+        log.info("User {} is attempting to transfer {} from account {} to account {}", username, transferRequest.getAmount(), sourceAccountId, destinationAccountId);
+        transactionService.processTransfer(sourceAccountId, destinationAccountId, transferRequest.getAmount(), connectedUser);
+        return ResponseEntity.ok("Transfer of " + transferRequest.getAmount() + " from account " + sourceAccountId + " to account " + destinationAccountId + " is successful.");
+    }
 }
