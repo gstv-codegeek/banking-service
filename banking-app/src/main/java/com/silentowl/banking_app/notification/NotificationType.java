@@ -1,0 +1,13 @@
+package com.silentowl.banking_app.notification;
+
+public enum NotificationType {
+
+    DEPOSIT_CONFIRMATION,
+    WITHDRAWAL_CONFIRMATION,
+    TRANSFER_SENT,
+    TRANSFER_RECEIVED,
+    LOW_BALANCE_ALERT,
+    SUSPICIOUS_ACTIVITY,
+    ACCOUNT_STATEMENT,
+    TRANSACTION_DECLINE
+}

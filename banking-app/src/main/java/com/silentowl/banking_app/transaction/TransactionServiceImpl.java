@@ -47,7 +47,6 @@ public class TransactionServiceImpl implements TransactionService {
         accountRepository.updateBalance(accountId, amount);
 
         log.info("Deposit of {} to account {} completed successfully", amount, accountId);
-
     }
 
 
@@ -112,8 +111,8 @@ public class TransactionServiceImpl implements TransactionService {
         // atomic account balance updates
         accountRepository.updateBalance(sourceAccountId, amount.negate());
         accountRepository.updateBalance(destinationAccountId, amount);
-        log.info("Transfer of {} from account {} to account {} completed successfully", amount, sourceAccountId, destinationAccountId);
 
+        log.info("Transfer of {} from account {} to account {} completed successfully", amount, sourceAccountId, destinationAccountId);
     }
 
     private Transaction createTransaction(

@@ -1,6 +1,5 @@
 package com.silentowl.banking_app.transaction;
 
-import com.silentowl.banking_app.account.Account;
 import org.springframework.security.core.Authentication;
 
 import java.math.BigDecimal;
