@@ -7,11 +7,13 @@ import com.silentowl.banking_app.kyc.KycVerificationRequest;
 import com.silentowl.banking_app.kyc.KycVerificationResponse;
 import com.silentowl.banking_app.kyc.KycVerificationService;
 import com.silentowl.banking_app.kyc.KycVerificationStatus;
+import com.silentowl.banking_app.transaction.TransactionService;
 import com.silentowl.banking_app.user.*;
 import lombok.RequiredArgsConstructor;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    private final TransactionService transactionService;
     private final AccountRepository accountRepository;
     private static final String BANK_CODE = "0063";
     private static final String BRANCH_CODE = "011";
@@ -56,9 +59,10 @@ public class AccountServiceImpl implements AccountService {
         try {
             account = accountRepository.save(account);
 
-            return account;
             // Create initial transaction record
-//            createInitialDepositTransaction(account, initialDeposit);
+            transactionService.processDeposit(account.getId(), initialDeposit, (Authentication) account.getUser());
+
+            return account;
         } catch (Exception e) {
             throw new AccountCreationException("Failed to create account");
         }
@@ -91,6 +95,8 @@ public class AccountServiceImpl implements AccountService {
         String uniqueId = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
         return BRANCH_CODE + uniqueId + " " +BANK_CODE;
     }
+
+    // create initial transaction
 
 //    private void createInitialDepositTransaction(Account account, BigDecimal initialDeposit) {
 //        Transaction initialTransaction = new Transaction();

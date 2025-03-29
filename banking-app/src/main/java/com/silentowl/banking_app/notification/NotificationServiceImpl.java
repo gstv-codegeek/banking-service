@@ -107,5 +107,4 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.findByAccountOrderByCreatedDateDesc(existingAccount);
     }
 
-
 }
