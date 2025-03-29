@@ -25,7 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser) {
 
-        validateUser(connectedUser, accountId);
+        validateUser(connectedUser, accountId); // ensure user owns account
         validateAmount(amount);
 
         // Lock account to prevent race conditions
@@ -44,7 +44,6 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(creditTx);
 
         // atomic balance update
-        account.setBalance(account.getBalance().add(amount));
         accountRepository.updateBalance(accountId, amount);
 
         log.info("Deposit of {} to account {} completed successfully", amount, accountId);
@@ -70,8 +69,8 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction debitTx = createTransaction(
                 account, amount, TransactionType.WITHDRAWAL,
                 TransactionDirection.DEBIT, "Withdrawal");
-
         transactionRepository.save(debitTx);
+
         // atomic balance update
         accountRepository.updateBalance(accountId, amount.negate());
 
@@ -135,15 +134,16 @@ public class TransactionServiceImpl implements TransactionService {
         // ensure account belongs to this user
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
-        if (!Objects.equals(connectedUser.getPrincipal(), account.getUser())) {
+        if (!Objects.equals(connectedUser.getName(), account.getUser().getEmail())) {
             log.error("Customer {} does not own account {} !", connectedUser.getPrincipal(), accountId);
+            throw new RuntimeException("Customer does not own account " + accountId);
         }
     }
 
     private void validateAmount(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             log.error("Invalid transaction amount: {}", amount);
-            throw new IllegalArgumentException("Transaction amount must be positive");
+            throw new IllegalArgumentException("Transaction amount must be a positive integer");
         }
     }
 
