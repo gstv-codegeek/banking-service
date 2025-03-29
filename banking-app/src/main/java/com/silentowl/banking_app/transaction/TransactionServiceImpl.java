@@ -2,6 +2,7 @@ package com.silentowl.banking_app.transaction;
 
 import com.silentowl.banking_app.account.Account;
 import com.silentowl.banking_app.account.AccountRepository;
+import com.silentowl.banking_app.account.AccountStatus;
 import com.silentowl.banking_app.exceptions.InsufficientFundsException;
 import com.silentowl.banking_app.notification.DeliveryChannel;
 import com.silentowl.banking_app.notification.Notification;
@@ -31,9 +32,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser) {
 
-        validateUser(connectedUser, accountId); // ensure user owns account
-        validateAmount(amount);
-
         // Lock account to prevent race conditions
         Account account = accountRepository.findByIdWithLock(accountId)
                 .orElseThrow(() -> {
@@ -41,7 +39,17 @@ public class TransactionServiceImpl implements TransactionService {
                     return new RuntimeException("Account not found");
                 });
 
+        // prevent deposits if account is the closed
+        if (account.getStatus() == AccountStatus.CLOSED) {
+            log.error("Deposit is not allowed on this account. Account is {}", account.getStatus());
+            throw new IllegalArgumentException("Account is Closed! Transactions are not allowed.");
+        }
+
+
         log.info("Processing deposit of {} to account {}", amount, accountId);
+        validateUser(connectedUser, accountId); // ensure user owns account
+        validateAmount(amount);
+
         // create & save credit transaction
         Transaction creditTx = createTransaction(
                 account, amount, TransactionType.DEPOSIT,
@@ -63,25 +71,31 @@ public class TransactionServiceImpl implements TransactionService {
         );
 
         log.info("Notification created for funds deposit");
-
-
     }
 
 
     @Transactional
     public void processWithdrawal(Long accountId, BigDecimal amount, Authentication connectedUser) {
-        validateUser(connectedUser, accountId); // ensure user owns account
-        validateAmount(amount);
-
         // Lock account to prevent race conditions
         Account account = accountRepository.findByIdWithLock(accountId)
                 .orElseThrow(() -> {
                     log.error("Withdrawal failed: Account {} not found", accountId);
                     return new RuntimeException("Account not found");
                 });
-        validateSufficientFunds(account, amount, "withdraw");
+
+        // prevent withdrawals if account is the closed | frozen | inactive
+        if (account.getStatus() == AccountStatus.CLOSED ||
+                account.getStatus() == AccountStatus.FROZEN ||
+                account.getStatus() == AccountStatus.INACTIVE) {
+            log.error("Withdrawal is not allowed. Your account is {}", account.getStatus());
+            throw new IllegalArgumentException("Withdrawal is not allowed! Your account is " + account.getStatus());
+        }
 
         log.info("Processing withdraw of {} from account {}", amount, accountId);
+        validateUser(connectedUser, accountId); // ensure user owns account
+        validateAmount(amount);
+        validateSufficientFunds(account, amount, "withdraw");
+
         // debit transaction for withdrawing account
         Transaction debitTx = createTransaction(
                 account, amount, TransactionType.WITHDRAWAL,
@@ -105,9 +119,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Transactional
     public void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount, Authentication connectedUser) {
-        validateUser(connectedUser, sourceAccountId);
-        validateAmount(amount);
-
         // Lock accounts to prevent race conditions
         Account sourceAccount = accountRepository.findByIdWithLock(sourceAccountId)
                 .orElseThrow(() -> {
@@ -120,9 +131,26 @@ public class TransactionServiceImpl implements TransactionService {
                     return new RuntimeException("Destination account not found");
                 });
 
-        validateSufficientFunds(sourceAccount, amount, "transfer");
+        // prevent transfers if source account is the closed, frozen or inactive
+        if (sourceAccount.getStatus() == AccountStatus.CLOSED ||
+                sourceAccount.getStatus() == AccountStatus.FROZEN ||
+                sourceAccount.getStatus() == AccountStatus.INACTIVE){
+            log.error("Transfer is not allowed for this account! Your account is {}", sourceAccount.getStatus());
+            throw new IllegalArgumentException("Transfer is not allowed! Your account is " + sourceAccount.getStatus());
+        }
+
+        // prevent transfers if destination account is the closed
+        if (destinationAccount.getStatus() == AccountStatus.CLOSED){
+            log.error("Transfer is not allowed for this account! Your account is {}", sourceAccount.getStatus());
+            throw new IllegalArgumentException("Transfer is not allowed! The destination account is " + destinationAccount.getStatus());
+        }
+
 
         log.info("Processing transfer of {} from account {} to account {}", amount, sourceAccountId, destinationAccountId);
+        validateUser(connectedUser, sourceAccountId);
+        validateAmount(amount);
+        validateSufficientFunds(sourceAccount, amount, "transfer");
+
         // create transactions
         Transaction debitTx = createTransaction(
                 sourceAccount, amount, TransactionType.TRANSFER_SENT,
@@ -145,7 +173,7 @@ public class TransactionServiceImpl implements TransactionService {
         notificationService.createNotification(
                 sourceAccount.getUser(), sourceAccount, debitTx, NotificationType.TRANSFER_SENT,
                 "You have successfully transferred " + amount +
-                        " to " + destinationAccount.getUser().getFirstName() + "-" + destinationAccount.getIban() +
+                        " to " + destinationAccount.getUser().getFirstName() + "-" + destinationAccount.getUser().getPhoneNumber() +
                         " at " + savedCreditTx.getCreatedDate(),
                 DeliveryChannel.EMAIL
         );
@@ -155,12 +183,13 @@ public class TransactionServiceImpl implements TransactionService {
                 "Dear " + destinationAccount.getUser().getFirstName().toUpperCase() + ", " +
                         "You have received " + destinationAccount.getCurrency() + " " + amount +
                         "on your account " + destinationAccount.getIban() +
-                        " from " + sourceAccount.getUser().getFirstName().toUpperCase() +
+                        " from " + sourceAccount.getUser().getFirstName().toUpperCase() + "-" + sourceAccount.getUser().getPhoneNumber() +
                         " at " + savedCreditTx.getCreatedDate(),
                 DeliveryChannel.EMAIL
         );
         log.info("Notification created for funds transfer");
     }
+
 
     private Transaction createTransaction(
             Account account, BigDecimal amount,

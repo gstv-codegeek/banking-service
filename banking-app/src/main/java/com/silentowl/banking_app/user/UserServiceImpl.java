@@ -1,6 +1,5 @@
 package com.silentowl.banking_app.user;
 
-import com.silentowl.banking_app.account.Account;
 import com.silentowl.banking_app.account.AccountCreationRequest;
 import com.silentowl.banking_app.account.AccountMapper;
 import com.silentowl.banking_app.account.AccountRepository;
@@ -10,7 +9,6 @@ import com.silentowl.banking_app.role.Role;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.iban4j.Iban;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,9 +30,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-//    private final AccountCreationRequest accountRequest;
-    private final AccountMapper accountMapper;
-    private final AccountRepository accountRepository;
 
     // create an admin user
     @PostConstruct
@@ -102,6 +97,7 @@ public class UserServiceImpl implements UserService {
         if (request.getFirstName() == null || request.getFirstName().trim().isEmpty()) throw new IllegalArgumentException("First name is required");
         if (request.getLastName() == null || request.getLastName().trim().isEmpty()) throw new IllegalArgumentException("Last name is required");
         if (request.getEmail() == null || !isValidEmail(request.getEmail())) throw new IllegalArgumentException("Invalid email");
+        if (request.getPhoneNumber() == null) throw new IllegalArgumentException("Phone number is required");
         if (request.getDateOfBirth() == null) throw new IllegalArgumentException("Date of birth is required");
         if (request.getInitialDeposit() == null) throw new IllegalArgumentException("Initial deposit is required");
         if (request.getAnnualIncome() == null) throw new IllegalArgumentException("Annual income is required");

@@ -25,6 +25,8 @@ public class UserRequest {
     private String lastName;
     @NotNull(message = "Date of birth cannot be empty")
     private LocalDate dateOfBirth;
+    @NotBlank(message = "Phone Number cannot be empty")
+    private String phoneNumber;
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email must be valid")
     private String email;

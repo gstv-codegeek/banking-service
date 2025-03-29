@@ -18,6 +18,7 @@ public class UserResponse {
     private Long id;
     private String lastName;
     private LocalDate dateOfBirth;
+    private String phoneNumber;
     private String email;
     // address info
     private String street;
