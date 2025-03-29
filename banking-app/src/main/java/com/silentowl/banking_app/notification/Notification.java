@@ -55,6 +55,8 @@ public class Notification extends AbstractEntity {
     @PrePersist
     public void onCreate() {
         deliveryStatus = DeliveryStatus.PENDING;
-        isRead = false;
+        if (isRead) {
+            readAt = LocalDateTime.now();
+        }
     }
 }

@@ -3,6 +3,11 @@ package com.silentowl.banking_app.transaction;
 import com.silentowl.banking_app.account.Account;
 import com.silentowl.banking_app.account.AccountRepository;
 import com.silentowl.banking_app.exceptions.InsufficientFundsException;
+import com.silentowl.banking_app.notification.DeliveryChannel;
+import com.silentowl.banking_app.notification.Notification;
+import com.silentowl.banking_app.notification.NotificationService;
+import com.silentowl.banking_app.notification.NotificationType;
+import com.silentowl.banking_app.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -20,6 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
+    private final NotificationService notificationService;
 
 
     @Transactional
@@ -45,8 +51,20 @@ public class TransactionServiceImpl implements TransactionService {
 
         // atomic balance update
         accountRepository.updateBalance(accountId, amount);
-
         log.info("Deposit of {} to account {} completed successfully", amount, accountId);
+
+        // create notification
+        notificationService.createNotification(
+                account.getUser(), account, creditTx, NotificationType.DEPOSIT_CONFIRMATION,
+                "Dear " + account.getUser().getFirstName().toUpperCase() +
+                        ", Your deposit of " + amount + " to your account " + account.getIban() +
+                        " has been posted successfully",
+                DeliveryChannel.EMAIL
+        );
+
+        log.info("Notification created for funds deposit");
+
+
     }
 
 
@@ -72,8 +90,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         // atomic balance update
         accountRepository.updateBalance(accountId, amount.negate());
-
         log.info("Withdrawal of {} from account {} completed successfully", amount, accountId);
+
+        // create notification
+        notificationService.createNotification(
+                account.getUser(), account, debitTx, NotificationType.WITHDRAWAL_CONFIRMATION,
+                "Dear " + account.getUser().getFirstName().toUpperCase() +
+                        ", Your withdrawal of " + amount + " from your account " + account.getIban() + " has been processed successfully.",
+                DeliveryChannel.EMAIL
+        );
+        log.info("Notification created for funds withdrawal");
     }
 
 
@@ -106,13 +132,34 @@ public class TransactionServiceImpl implements TransactionService {
                 TransactionDirection.CREDIT, "Transfer from " + sourceAccount.getIban());
 
         // save both transactions
-        transactionRepository.saveAll(List.of(debitTx, creditTx));
+        List<Transaction> savedTxs = transactionRepository.saveAll(List.of(debitTx, creditTx));
+        Transaction savedDebitTx = savedTxs.getFirst();
+        Transaction savedCreditTx = savedTxs.getLast();
 
         // atomic account balance updates
         accountRepository.updateBalance(sourceAccountId, amount.negate());
         accountRepository.updateBalance(destinationAccountId, amount);
-
         log.info("Transfer of {} from account {} to account {} completed successfully", amount, sourceAccountId, destinationAccountId);
+
+        // create notification for sender
+        notificationService.createNotification(
+                sourceAccount.getUser(), sourceAccount, debitTx, NotificationType.TRANSFER_SENT,
+                "You have successfully transferred " + amount +
+                        " to " + destinationAccount.getUser().getFirstName() + "-" + destinationAccount.getIban() +
+                        " at " + savedCreditTx.getCreatedDate(),
+                DeliveryChannel.EMAIL
+        );
+        // create notification for recipient
+        notificationService.createNotification(
+                destinationAccount.getUser(), destinationAccount, creditTx, NotificationType.TRANSFER_RECEIVED,
+                "Dear " + destinationAccount.getUser().getFirstName().toUpperCase() + ", " +
+                        "You have received " + destinationAccount.getCurrency() + " " + amount +
+                        "on your account " + destinationAccount.getIban() +
+                        " from " + sourceAccount.getUser().getFirstName().toUpperCase() +
+                        " at " + savedCreditTx.getCreatedDate(),
+                DeliveryChannel.EMAIL
+        );
+        log.info("Notification created for funds transfer");
     }
 
     private Transaction createTransaction(
