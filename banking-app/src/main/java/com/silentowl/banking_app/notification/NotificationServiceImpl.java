@@ -1,14 +1,18 @@
 package com.silentowl.banking_app.notification;
 
 import com.silentowl.banking_app.account.Account;
+import com.silentowl.banking_app.account.AccountRepository;
+import com.silentowl.banking_app.exceptions.NotificationNotFoundException;
 import com.silentowl.banking_app.transaction.Transaction;
 import com.silentowl.banking_app.user.User;
-import com.silentowl.banking_app.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     private static final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
     private final NotificationRepository notificationRepository;
+    private final AccountRepository accountRepository;
 
 
     @Override
@@ -42,19 +47,65 @@ public class NotificationServiceImpl implements NotificationService {
 
     }
 
-    @Override
-    public void sendNotification(User recipient, String message, DeliveryChannel channel, DeliveryStatus deliveryStatus) {
 
+    @Override
+    @Transactional
+    public void sendNotification(Notification notification) {
+        notification.setDeliveryStatus(DeliveryStatus.SENT);
+        notificationRepository.save(notification);
     }
 
-//    private void validateParameters(Long recipientId, Long accountId, Long transactionId, NotificationType type, String message, DeliveryChannel channel) {
-//        // check for null values
-//        if (recipientId == null) throw new IllegalArgumentException("Message recipient must be provided!");
-//        if (type == null) throw new IllegalArgumentException("Notification type must be provided");
-//        if (message == null) throw new IllegalArgumentException("Message body cannot be empty");
-//        if (channel == null) throw new IllegalArgumentException("Sending channel must be provided");
-//
-//        // ensure recipient exists
-//        if (!userRepository.existsById(recipientId)) throw new UserNotFoundException("User not found with id " + recipientId);
-//    }
+
+    @Override
+    @Transactional
+    public void markAsDelivered(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                        .orElseThrow(() -> new NotificationNotFoundException(notificationId));
+        notification.setDeliveryStatus(DeliveryStatus.DELIVERED);
+        notificationRepository.save(notification);
+    }
+
+
+    @Override
+    @Transactional
+    public void markAsRead(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new NotificationNotFoundException(notificationId));
+        notification.setRead(true);
+        notificationRepository.save(notification);
+    }
+
+    @Transactional
+    @Override
+    public void markAllAsRead(Account account) {
+        Account existingAccount = accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + account.getId()));
+        List<Notification> unreadNotifications = findUnreadNotificationsByAccount(existingAccount);
+
+        unreadNotifications.forEach(notification -> {
+            notification.setRead(true);
+            notification.setReadAt(LocalDateTime.now());
+        });
+        notificationRepository.saveAll(unreadNotifications);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Notification> findUnreadNotificationsByAccount(Account account) {
+        Account existingAccount = accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + account.getId()));
+        return notificationRepository.findByAccountAndReadFalseOrderByCreatedDateDesc(existingAccount);
+    }
+
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Notification> findAllNotificationsByAcount(Account account) {
+        Account existingAccount = accountRepository.findById(account.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + account.getId()));
+        return notificationRepository.findByAccountOrderByCreatedDateDesc(existingAccount);
+    }
+
+
 }
