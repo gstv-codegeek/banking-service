@@ -2,6 +2,7 @@ package com.silentowl.banking_app.account;
 
 import com.silentowl.banking_app.transaction.DepositRequest;
 import com.silentowl.banking_app.transaction.TransactionService;
+import com.silentowl.banking_app.transaction.WithdrawalRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     @PostMapping("/{account-id}/deposit")
     public ResponseEntity<String> processDeposit(@PathVariable("account-id") Long accountId, @RequestBody DepositRequest depositRequest, Authentication connectedUser) {
         String username = connectedUser.getName();
@@ -37,4 +39,16 @@ public class AccountController {
         transactionService.processDeposit(accountId, depositRequest.getAmount(), connectedUser);
         return ResponseEntity.ok("Deposit of " + depositRequest.getAmount() + " to account " + accountId + " successful.");
     }
+
+
+    @PostMapping("/{account-id}/withdraw")
+    public ResponseEntity<String> processWithdrawal(@PathVariable("account-id") Long accountId, @RequestBody WithdrawalRequest withdrawalRequest, Authentication connectedUser) {
+        String username = connectedUser.getName();
+        log.info("User {} is attempting to withdraw {} from account {}", username, withdrawalRequest.getAmount(), accountId);
+        transactionService.processWithdrawal(accountId, withdrawalRequest.getAmount(), connectedUser);
+        return ResponseEntity.ok("Withdrawal of " + withdrawalRequest.getAmount() + " from account " + accountId + " successful.");
+    }
+
+
+
 }

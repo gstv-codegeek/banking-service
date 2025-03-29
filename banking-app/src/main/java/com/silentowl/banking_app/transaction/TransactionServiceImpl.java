@@ -53,7 +53,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Transactional
     public void processWithdrawal(Long accountId, BigDecimal amount, Authentication connectedUser) {
-        validateUser(connectedUser, accountId);
+        validateUser(connectedUser, accountId); // ensure user owns account
         validateAmount(amount);
 
         // Lock account to prevent race conditions
@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
                     log.error("Withdrawal failed: Account {} not found", accountId);
                     return new RuntimeException("Account not found");
                 });
-        validateSufficientFunds(account, amount);
+        validateSufficientFunds(account, amount, "withdraw");
 
         log.info("Processing withdraw of {} from account {}", amount, accountId);
         // debit transaction for withdrawing account
@@ -95,7 +95,7 @@ public class TransactionServiceImpl implements TransactionService {
                     return new RuntimeException("Destination account not found");
                 });
 
-        validateSufficientFunds(sourceAccount, amount);
+        validateSufficientFunds(sourceAccount, amount, "transfer");
 
         log.info("Processing transfer of {} from account {} to account {}", amount, sourceAccountId, destinationAccountId);
         // create transactions
@@ -147,10 +147,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    private void validateSufficientFunds(Account account, BigDecimal amount) {
+    private void validateSufficientFunds(Account account, BigDecimal amount, String operation) {
         if (account.getBalance().compareTo(amount) < 0) {
-            log.info("Insufficient funds for account {}: Attempted withdrawal/transfer of {}", account.getId(), amount);
-            throw new InsufficientFundsException("Insufficient funds for transaction");
+            log.info("Insufficient funds for account {} to {} {}", account.getId(), operation, amount);
+            throw new IllegalArgumentException("Insufficient funds for transaction. Account balance is: " + account.getBalance());
         }
     }
 
