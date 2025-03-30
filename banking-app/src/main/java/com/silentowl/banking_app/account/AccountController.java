@@ -4,6 +4,7 @@ import com.silentowl.banking_app.transaction.DepositRequest;
 import com.silentowl.banking_app.transaction.TransactionService;
 import com.silentowl.banking_app.transaction.TransferFundsRequest;
 import com.silentowl.banking_app.transaction.WithdrawalRequest;
+import com.silentowl.banking_app.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @Slf4j
 @RestController
@@ -58,4 +57,6 @@ public class AccountController {
         transactionService.processTransfer(sourceAccountId, destinationAccountId, transferRequest.getAmount(), connectedUser);
         return ResponseEntity.ok("Transfer of " + transferRequest.getAmount() + " from account " + sourceAccountId + " to account " + destinationAccountId + " is successful.");
     }
+
+
 }

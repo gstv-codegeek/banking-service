@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    List<Notification> findByAccountAndReadFalseOrderByCreatedDateDesc(Account account);
-
     List<Notification> findByAccountOrderByCreatedDateDesc(Account existingAccount);
+
+    List<Notification> findByAccountAndIsReadFalseOrderByCreatedDateDesc(Account existingAccount);
 }

@@ -6,5 +6,6 @@ import java.math.BigDecimal;
 
 @Data
 public class TransferFundsRequest {
+
     private BigDecimal amount;
 }

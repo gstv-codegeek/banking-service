@@ -95,7 +95,7 @@ public class NotificationServiceImpl implements NotificationService {
     public List<Notification> findUnreadNotificationsByAccount(Account account) {
         Account existingAccount = accountRepository.findById(account.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + account.getId()));
-        return notificationRepository.findByAccountAndReadFalseOrderByCreatedDateDesc(existingAccount);
+        return notificationRepository.findByAccountAndIsReadFalseOrderByCreatedDateDesc(existingAccount);
     }
 
 

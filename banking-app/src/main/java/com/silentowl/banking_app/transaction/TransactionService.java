@@ -9,4 +9,5 @@ public interface TransactionService {
     void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser);
     void processWithdrawal(Long accountId, BigDecimal amount, Authentication connectedUser);
     void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount, Authentication connectedUser);
+
 }

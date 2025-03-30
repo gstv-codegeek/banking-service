@@ -5,17 +5,19 @@ import com.silentowl.banking_app.transaction.TransactionService;
 import com.silentowl.banking_app.user.CustomerTier;
 import com.silentowl.banking_app.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -43,9 +45,15 @@ public class AccountServiceImpl implements AccountService {
         System.out.println(accountNumber + " - " + customer.getFirstName() + " - " + accountType + " - " + initialDeposit);
         Account account = new Account();
         account.setIban(accountNumber);
+        System.out.println(customer.getEmail());
+        if (Objects.equals(customer.getEmail(), "admin@e-banking.com")){
+
+            System.out.println(customer.getId());
+            account.setCreatedBy(customer.getId());
+        }
         account.setUser(customer);
         account.setAccountType(accountType);
-        account.setBalance(initialDeposit);
+        account.setBalance(BigDecimal.ZERO);
         account.setInitialDeposit(initialDeposit);
         account.setStatus(
                 initialDeposit.compareTo(getMinimumDepositForAccountType(accountType)) >= 0
@@ -53,15 +61,17 @@ public class AccountServiceImpl implements AccountService {
                 : AccountStatus.INACTIVE
         );
         account.setCurrency(String.valueOf(Currency.getInstance("KES").getCurrencyCode()));
+
         try {
             account = accountRepository.save(account);
 
             // Create initial transaction record
-            transactionService.processDeposit(account.getId(), initialDeposit, (Authentication) account.getUser());
-
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            transactionService.processDeposit(account.getId(), initialDeposit, authentication);
             return account;
         } catch (Exception e) {
-            throw new AccountCreationException("Failed to create account");
+            log.error("Error creating account :", e);
+            throw new AccountCreationException(customer.getId());
         }
     }
 

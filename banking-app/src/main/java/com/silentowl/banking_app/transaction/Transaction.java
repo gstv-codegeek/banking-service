@@ -34,4 +34,5 @@ public class Transaction extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private TransactionDirection direction;
+
 }

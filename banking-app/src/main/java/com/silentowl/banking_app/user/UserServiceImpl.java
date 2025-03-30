@@ -1,8 +1,6 @@
 package com.silentowl.banking_app.user;
 
-import com.silentowl.banking_app.account.AccountCreationRequest;
-import com.silentowl.banking_app.account.AccountMapper;
-import com.silentowl.banking_app.account.AccountRepository;
+import com.silentowl.banking_app.account.*;
 import com.silentowl.banking_app.exceptions.UserNotFoundException;
 import com.silentowl.banking_app.kyc.KycVerificationStatus;
 import com.silentowl.banking_app.role.Role;
@@ -30,15 +28,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AccountService accountService;
 
     // create an admin user
     @PostConstruct
+    @Transactional
     public void createAdmin() {
         if (!userRepository.existsByRole(Role.ROLE_ADMIN)) {
             User user = new User();
             user.setFirstName("SYSTEM");
             user.setLastName("ADMIN");
             user.setDateOfBirth(LocalDate.of(2000, 12, 12));
+            user.setPhoneNumber("0712345678");
             user.setEmail("admin@e-banking.com");
             user.setRole(Role.ROLE_ADMIN);
             user.setPassword(passwordEncoder.encode("admin"));
@@ -57,8 +58,12 @@ public class UserServiceImpl implements UserService {
             user.setKycStatus(KycVerificationStatus.VERIFIED);
             user.setCustomerTier(CustomerTier.SILVER);
 
-            userRepository.save(user);
+            User createdUser = userRepository.save(user);
             log.info("Default admin created successfully");
+
+            // create account for admin
+//            accountService.createAccount(createdUser, CustomerTier.SILVER, BigDecimal.valueOf(500), AccountType.STANDARD);
+
         } else {
             log.info("Admin user already exists");
         }
@@ -91,6 +96,7 @@ public class UserServiceImpl implements UserService {
         // Save and return the user
         return userRepository.save(user);
     }
+
     private void validateUserRequest(AccountCreationRequest userRequest) {
         UserRequest request = userRequest.getUserRequest();
         if (request == null) throw new IllegalArgumentException("User request cannot be null");
@@ -103,10 +109,12 @@ public class UserServiceImpl implements UserService {
         if (request.getAnnualIncome() == null) throw new IllegalArgumentException("Annual income is required");
         if (request.getOccupation() == null) throw new IllegalArgumentException("Occupation is required");
     }
+
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(emailRegex);
     }
+
     private void validateKycStatus(KycVerificationStatus kycStatus) {
         if (kycStatus.equals(KycVerificationStatus.REJECTED)) throw new IllegalArgumentException("Customer is not eligible to create account on their own");
     }
@@ -159,4 +167,5 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + email));
     }
+
 }

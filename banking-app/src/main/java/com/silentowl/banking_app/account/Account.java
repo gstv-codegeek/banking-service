@@ -32,7 +32,6 @@ public class Account extends AbstractEntity {
 
     private BigDecimal initialDeposit;
 
-    @Column(nullable = false)
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
@@ -49,4 +48,5 @@ public class Account extends AbstractEntity {
     // transactions
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
+
 }

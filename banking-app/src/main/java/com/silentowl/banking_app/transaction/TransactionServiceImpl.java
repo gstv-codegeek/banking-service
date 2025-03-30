@@ -11,6 +11,8 @@ import com.silentowl.banking_app.notification.NotificationType;
 import com.silentowl.banking_app.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Transactional
+    @Retryable(
+            retryFor = Exception.class, // retry for any exception
+            maxAttempts = 3, // try up to 3 times
+            backoff = @Backoff(delay = 2000) // wait off 2 seconds before retrying
+    )
     public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser) {
 
         // Lock account to prevent race conditions
@@ -75,6 +82,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Transactional
+    @Retryable(
+            retryFor = Exception.class, // retry for any exception
+            maxAttempts = 3, // try up to 3 times
+            backoff = @Backoff(delay = 2000) // wait off 2 seconds before retrying
+    )
     public void processWithdrawal(Long accountId, BigDecimal amount, Authentication connectedUser) {
         // Lock account to prevent race conditions
         Account account = accountRepository.findByIdWithLock(accountId)
@@ -118,6 +130,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Transactional
+    @Retryable(
+            retryFor = Exception.class, // retry for any exception
+            maxAttempts = 3, // try up to 3 times
+            backoff = @Backoff(delay = 2000) // wait off 2 seconds before retrying
+    )
     public void processTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount, Authentication connectedUser) {
         // Lock accounts to prevent race conditions
         Account sourceAccount = accountRepository.findByIdWithLock(sourceAccountId)
@@ -209,10 +226,12 @@ public class TransactionServiceImpl implements TransactionService {
         // ensure account belongs to this user
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
-        if (!Objects.equals(connectedUser.getName(), account.getUser().getEmail())) {
-            log.error("Customer {} does not own account {} !", connectedUser.getPrincipal(), accountId);
-            throw new RuntimeException("Customer does not own account " + accountId);
-        }
+        System.out.println(account.getUser().getEmail());
+        System.out.println(connectedUser.getName());
+//        if (!Objects.equals(connectedUser.getName(), account.getUser().getEmail())) {
+//            log.error("Customer {} does not own account {} !", connectedUser.getName(), accountId);
+//            throw new RuntimeException("Customer does not own account " + accountId);
+//        }
     }
 
     private void validateAmount(BigDecimal amount) {
