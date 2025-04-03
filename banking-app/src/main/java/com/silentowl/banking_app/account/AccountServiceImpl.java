@@ -66,8 +66,9 @@ public class AccountServiceImpl implements AccountService {
             account = accountRepository.save(account);
 
             // Create initial transaction record
+            boolean isNew = true;
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            transactionService.processDeposit(account.getId(), initialDeposit, authentication);
+            transactionService.processDeposit(account.getId(), initialDeposit, authentication, isNew);
             return account;
         } catch (Exception e) {
             log.error("Error creating account :", e);

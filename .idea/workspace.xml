@@ -6,25 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="79d5bf33-f61b-4aba-9d82-cc979537d109" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/BankingAppApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountType.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/account/AccountType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/exceptions/AccountCreationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/exceptions/AccountCreationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/notification/NotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/notification/NotificationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/notification/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/notification/NotificationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/DepositRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/DepositRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionDirection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransactionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransferFundsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/transaction/TransferFundsRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/banking-app/src/main/java/com/silentowl/banking_app/user/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +115,11 @@
       <workItem from="1743105416917" duration="10825000" />
       <workItem from="1743151297593" duration="35316000" />
       <workItem from="1743235929946" duration="40330000" />
-      <workItem from="1743328795054" duration="12403000" />
+      <workItem from="1743328795054" duration="13669000" />
+      <workItem from="1743499018141" duration="2259000" />
+      <workItem from="1743501312649" duration="225000" />
+      <workItem from="1743501572848" duration="4462000" />
+      <workItem from="1743670442104" duration="631000" />
     </task>
     <servers />
   </component>

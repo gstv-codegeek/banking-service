@@ -37,8 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
             maxAttempts = 3, // try up to 3 times
             backoff = @Backoff(delay = 2000) // wait off 2 seconds before retrying
     )
-    public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser) {
+    public void processDeposit(Long accountId, BigDecimal amount, Authentication connectedUser, boolean isNewCustomer) {
 
+//        System.out.println(isNewCustomer);
         // Lock account to prevent race conditions
         Account account = accountRepository.findByIdWithLock(accountId)
                 .orElseThrow(() -> {
@@ -52,9 +53,8 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("Account is Closed! Transactions are not allowed.");
         }
 
-
         log.info("Processing deposit of {} to account {}", amount, accountId);
-        validateUser(connectedUser, accountId); // ensure user owns account
+        validateUser(connectedUser, accountId, isNewCustomer); // ensure user owns account
         validateAmount(amount);
 
         // create & save credit transaction
@@ -104,7 +104,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         log.info("Processing withdraw of {} from account {}", amount, accountId);
-        validateUser(connectedUser, accountId); // ensure user owns account
+
+        // validate inputs
+        boolean isNewCustomer = false;
+        validateUser(connectedUser, accountId, isNewCustomer); // ensure user owns account
         validateAmount(amount);
         validateSufficientFunds(account, amount, "withdraw");
 
@@ -162,9 +165,11 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("Transfer is not allowed! The destination account is " + destinationAccount.getStatus());
         }
 
-
         log.info("Processing transfer of {} from account {} to account {}", amount, sourceAccountId, destinationAccountId);
-        validateUser(connectedUser, sourceAccountId);
+
+        // validate fields
+        boolean isNewCustomer = false;
+        validateUser(connectedUser, sourceAccountId, isNewCustomer);
         validateAmount(amount);
         validateSufficientFunds(sourceAccount, amount, "transfer");
 
@@ -222,16 +227,16 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
     }
 
-    private void validateUser(Authentication connectedUser, Long accountId) {
+    private void validateUser(Authentication connectedUser, Long accountId, boolean isNewCustomer) {
         // ensure account belongs to this user
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
         System.out.println(account.getUser().getEmail());
         System.out.println(connectedUser.getName());
-//        if (!Objects.equals(connectedUser.getName(), account.getUser().getEmail())) {
-//            log.error("Customer {} does not own account {} !", connectedUser.getName(), accountId);
-//            throw new RuntimeException("Customer does not own account " + accountId);
-//        }
+        if (!isNewCustomer && !Objects.equals(connectedUser.getName(), account.getUser().getEmail())) {
+            log.error("Customer {} does not own account {} !", connectedUser.getName(), accountId);
+            throw new RuntimeException("Customer does not own account " + accountId);
+        }
     }
 
     private void validateAmount(BigDecimal amount) {

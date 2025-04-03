@@ -36,7 +36,8 @@ public class AccountController {
     public ResponseEntity<String> processDeposit(@PathVariable("account-id") Long accountId, @RequestBody DepositRequest depositRequest, Authentication connectedUser) {
         String username = connectedUser.getName();
         log.info("User {} is attempting to deposit {} into account {}", username, depositRequest.getAmount(), accountId);
-        transactionService.processDeposit(accountId, depositRequest.getAmount(), connectedUser);
+        boolean isNewCustomer = false;
+        transactionService.processDeposit(accountId, depositRequest.getAmount(), connectedUser, isNewCustomer);
         return ResponseEntity.ok("Deposit of " + depositRequest.getAmount() + " to account " + accountId + " is successful.");
     }
 
